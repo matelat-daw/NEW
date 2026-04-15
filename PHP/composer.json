@@ -1,0 +1,31 @@
+{
+    "name": "futureprograms/clients",
+    "description": "Clients Management API with JWT Authentication",
+    "type": "project",
+    "license": "MIT",
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "http://repo.packagist.org"
+        }
+    ],
+    "require": {
+        "php": ">=8.0",
+        "slim/slim": "^4.12",
+        "slim/psr7": "^1.6",
+        "firebase/php-jwt": "^6.10"
+    },
+    "autoload": {
+        "psr-4": {
+            "FuturePrograms\\Clients\\": "src/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "disable-tls": true,
+        "audit": {
+            "block-insecure": false
+        }
+    }
+}

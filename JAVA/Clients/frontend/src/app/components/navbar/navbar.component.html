@@ -1,0 +1,103 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="/">
+            <i class="fas fa-users-cog me-2"></i> <span>Clients <span class="text-primary">API</span></span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <!-- Links para NO autenticados -->
+                <li class="nav-item" id="guestLinks">
+                    <a class="nav-link nav-link-home" href="/" data-route="home">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                </li>
+                <li class="nav-item" id="registerLink">
+                    <a class="nav-link nav-link-register" href="/register" data-route="register">
+                        <i class="fas fa-user-plus"></i> Register
+                    </a>
+                </li>
+                <li class="nav-item" id="loginLink">
+                    <a class="nav-link nav-link-login" href="/login" data-route="login">
+                        <i class="fas fa-sign-in-alt"></i> Sign In
+                    </a>
+                </li>
+
+                <!-- Links para autenticados -->
+                <li class="nav-item" id="authenticatedLinks" style="display: none;">
+                    <a class="nav-link nav-link-dashboard" href="/dashboard" data-route="dashboard">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item" id="usersLink" style="display: none;">
+                    <a class="nav-link nav-link-users" href="/users" data-route="users">
+                        <i class="fas fa-list"></i> Users
+                    </a>
+                </li>
+                <li class="nav-item" id="customersLink" style="display: none;">
+                    <a class="nav-link nav-link-customers" href="/customers" data-route="customers">
+                        <i class="fas fa-building"></i> MyIkea Customers
+                    </a>
+                </li>
+
+                <!-- Dropdown perfil de usuario (autenticado) -->
+                <li class="nav-item dropdown" id="userDropdown" style="display: none;">
+                    <button class="nav-link dropdown-toggle btn btn-link text-decoration-none p-0 border-0" type="button" id="navbarUserDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img id="navbarProfilePic" src="" alt="Profile" class="rounded-circle border border-2 me-2" style="width: 32px; height: 32px; object-fit: cover; border-color: rgba(255, 255, 255, 0.5) !important;">
+                        <span id="navbarUserNick"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarUserDropdown">
+                        <li>
+                            <h6 class="dropdown-header">
+                                <i class="fas fa-user-circle"></i> <span id="dropdownFullName"></span>
+                            </h6>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <a class="dropdown-item" href="/dashboard">
+                                <i class="fas fa-tachometer-alt"></i> Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="/profile">
+                                <i class="fas fa-user-circle"></i> My Profile
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <a class="dropdown-item text-danger" href="javascript:void(0)" id="logoutLink">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Modal: Confirmar cierre de sesión -->
+<div class="modal fade" id="logoutConfirmModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-warning bg-opacity-10 border-warning">
+                <h5 class="modal-title fw-bold text-warning">
+                    <i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-0"><strong>¿Estás seguro de que deseas cerrar sesión?</strong></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-warning" id="confirmLogoutBtn">
+                    <i class="fas fa-sign-out-alt me-2"></i>Sí, cerrar sesión
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+

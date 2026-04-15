@@ -1,0 +1,95 @@
+<div class="spa-fragment customers-fragment">
+    <!-- Main Content -->
+    <div class="main-content py-5 mb-6" style="min-height: calc(100vh - 120px);">
+        <div class="container-fluid py-5">
+            <!-- Saludo Usuario -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="alert alert-info alert-dismissible fade show" role="alert">
+                        <i class="fas fa-user-check me-2"></i>
+                        <strong>¡Bienvenido ADMIN! Administración de Customers de MyIkea</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Header -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <h1 class="display-5 fw-bold mb-2">
+                        <i class="fas fa-building me-3"></i>Customers MyIkea
+                    </h1>
+                    <p class="text-muted">Total de customers: <strong id="totalCustomersCount">0</strong></p>
+                </div>
+            </div>
+
+            <!-- Barra de búsqueda y filtros -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" id="searchFirstName" placeholder="Buscar por nombre...">
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" id="searchLastName" placeholder="Buscar por apellido...">
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-primary w-100" id="searchBtn">
+                                        <i class="fas fa-search me-2"></i>Buscar
+                                    </button>
+                                    <button class="btn btn-secondary w-100 mt-2" id="resetBtn">
+                                        <i class="fas fa-redo me-2"></i>Limpiar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla de customers -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <div id="customersTableContainer"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paginación -->
+            <div id="paginationContainer"></div>
+        </div>
+    </div>
+
+    <!-- Modal: Confirmar eliminación -->
+    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger bg-opacity-10 border-danger">
+                    <h5 class="modal-title fw-bold text-danger">
+                        <i class="fas fa-exclamation-triangle me-2"></i>Confirmar eliminación
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>¿Estás seguro de que deseas eliminar este customer?</strong></p>
+                    <p id="deleteCustomerInfo" class="text-muted"></p>
+                    <div class="alert alert-warning" role="alert">
+                        <i class="fas fa-warning me-2"></i>
+                        <strong>Advertencia:</strong> Esta acción no se puede deshacer.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">
+                        <i class="fas fa-trash me-2"></i>Sí, eliminar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

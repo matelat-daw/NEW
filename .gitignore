@@ -1,0 +1,59 @@
+# ==========================================
+# ASP .NET - Archivos compilados y generados
+# ==========================================
+ASP .NET/**/bin/
+ASP .NET/**/obj/
+ASP .NET/**/*.csproj.user
+ASP .NET/**/.vs/
+ASP .NET/**/.vscode/
+ASP .NET/**/appsettings.Development.json
+ASP .NET/**/appsettings.local.json
+ASP .NET/**/Clients.AssemblyInfo.cs
+ASP .NET/**/Clients.AssemblyInfoInputs.cache
+
+# ==========================================
+# JAVA - Archivos compilados y generados
+# ==========================================
+JAVA/**/target/
+JAVA/**/.classpath
+JAVA/**/.project
+JAVA/**/.settings/
+JAVA/**/.idea/
+JAVA/**/*.iml
+JAVA/**/node_modules/
+JAVA/**/.vscode/
+
+# ==========================================
+# General - Sistema operativo y herramientas
+# ==========================================
+.DS_Store
+Thumbs.db
+.env
+.env.local
+*.swp
+*.swo
+*~
+.sublime-project
+.sublime-workspace
+
+# ==========================================
+# IDE y herramientas de desarrollo
+# ==========================================
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
+
+# ==========================================
+# Logs
+# ==========================================
+*.log
+logs/
+
+# ==========================================
+# Caché y archivos temporales
+# ==========================================
+.cache/
+*.tmp
+*/.gradle/
