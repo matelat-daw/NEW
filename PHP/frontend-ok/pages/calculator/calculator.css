@@ -1,0 +1,245 @@
+.calculator-page {
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.calculator-container {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    padding: 2.5rem;
+    max-width: 600px;
+    width: 100%;
+    animation: slideInUp 0.4s ease-out;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.calculator-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.calculator-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+.calculator-header h2 {
+    color: #2d3748;
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.calculator-header p {
+    color: #718096;
+    font-size: 1rem;
+}
+
+.calculator-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    color: #4a5568;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group select {
+    padding: 0.75rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: 3px solid #1d4ed8;
+    outline-offset: 0;
+    border-color: #1d4ed8;
+    box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.15);
+}
+
+.btn-icon {
+    margin-right: 0.5rem;
+}
+
+.calculator-footer {
+    text-align: center;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.calculator-footer p {
+    color: #4a5568;  /* Upgraded from #718096 for WCAG AA */
+    font-size: 0.9rem;
+}
+
+.calculator-footer .link {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.calculator-footer .link:hover {
+    color: #764ba2;
+}
+
+/* ── Intro section ── */
+.calculator-intro {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.calculator-intro h1 {
+    color: #2d3748;
+    font-size: 1.6rem;
+    margin-bottom: 0.75rem;
+    text-align: center;
+}
+
+.intro-lead {
+    color: #4a5568;
+    line-height: 1.7;
+    font-size: 0.95rem;
+    margin-bottom: 1.25rem;
+    text-align: center;
+}
+
+.intro-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+
+.intro-step {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #4a5568;
+    font-size: 0.95rem;
+}
+
+.step-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+}
+
+.intro-note {
+    background: #f7f8ff;
+    border-left: 3px solid #667eea;
+    padding: 0.85rem 1rem;
+    border-radius: 0 8px 8px 0;
+    color: #4a5568;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+/* ── Guarantees ── */
+.calculator-guarantees {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 2px solid #e2e8f0;
+}
+
+.calculator-guarantees h2 {
+    color: #2d3748;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.guarantees-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.guarantees-list li {
+    color: #4a5568;
+    font-size: 0.9rem;
+    line-height: 1.65;
+    padding-left: 1.2rem;
+    position: relative;
+}
+
+.guarantees-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #667eea;
+    font-weight: 700;
+}
+
+.guarantees-list strong {
+    color: #2d3748;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .calculator-container {
+        padding: 1.5rem;
+    }
+    
+    .calculator-header h2 {
+        font-size: 1.5rem;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}

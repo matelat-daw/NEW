@@ -1,0 +1,525 @@
+<div class="profile-page">
+    <div class="profile-container">
+        <div class="profile-header">
+            <div class="profile-avatar" aria-hidden="true">👤</div>
+            <h2>Mi Perfil</h2>
+            <p id="user-role-badge" class="role-badge"></p>
+        </div>
+        
+        <div class="profile-content">
+            <!-- Tabs: implementa patrón ARIA tablist / tab / tabpanel -->
+            <div class="tabs" role="tablist" aria-label="Secciones del perfil">
+                <button class="tab-btn active"
+                        role="tab"
+                        id="tab-info-btn"
+                        aria-selected="true"
+                        aria-controls="tab-info"
+                        tabindex="0"
+                        onclick="profilePage.switchTab('info')">
+                    <span aria-hidden="true">📋</span> Información
+                </button>
+                <button class="tab-btn"
+                        role="tab"
+                        id="tab-contract-btn"
+                        aria-selected="false"
+                        aria-controls="tab-contract"
+                        tabindex="-1"
+                        onclick="profilePage.switchTab('contract')">
+                    <span aria-hidden="true">📄</span> Mi Contrato
+                </button>
+                <button class="tab-btn"
+                        role="tab"
+                        id="tab-add-sale-btn"
+                        aria-selected="false"
+                        aria-controls="tab-add-sale"
+                        tabindex="-1"
+                        style="display: none;"
+                        onclick="profilePage.switchTab('add-sale')">
+                    <span aria-hidden="true">🛒</span> Agregar Venta
+                </button>
+                <button class="tab-btn"
+                        role="tab"
+                        id="tab-settings-btn"
+                        aria-selected="false"
+                        aria-controls="tab-settings"
+                        tabindex="-1"
+                        onclick="profilePage.switchTab('settings')">
+                    <span aria-hidden="true">⚙️</span> Configuración
+                </button>
+                <button class="tab-btn"
+                        role="tab"
+                        id="tab-management-btn"
+                        aria-selected="false"
+                        aria-controls="tab-management"
+                        tabindex="-1"
+                        style="display: none;"
+                        onclick="profilePage.switchTab('management')">
+                    <span aria-hidden="true">👥</span> Gestión
+                </button>
+                <button class="tab-btn"
+                        role="tab"
+                        id="tab-admin-contracts-btn"
+                        aria-selected="false"
+                        aria-controls="tab-admin-contracts"
+                        tabindex="-1"
+                        style="display: none;"
+                        onclick="profilePage.switchTab('admin-contracts'); profilePage.loadAdminContracts();">
+                    <span aria-hidden="true">📊</span> Administración
+                </button>
+            </div>
+            
+            <!-- Tab: Información -->
+            <div id="tab-info" class="tab-content active"
+                 role="tabpanel"
+                 aria-labelledby="tab-info-btn"
+                 tabindex="0">
+                <form id="profile-form" class="profile-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="profile-first-name">Nombre</label>
+                            <input type="text" id="profile-first-name" name="first_name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="profile-last-name">Primer apellido</label>
+                            <input type="text" id="profile-last-name" name="last_name" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="profile-second-last-name">Segundo apellido (opcional)</label>
+                            <input type="text" id="profile-second-last-name" name="second_last_name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="profile-username">Usuario</label>
+                            <input type="text" id="profile-username" name="username" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="profile-email">Correo electrónico</label>
+                        <input type="email" id="profile-email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="profile-phone">Teléfono</label>
+                        <input type="tel" id="profile-phone" name="phone" placeholder="+34 600 000 000">
+                    </div>
+                    
+                    <div id="profile-message" class="message" style="display: none;"
+                     role="status" aria-live="polite" aria-atomic="true"></div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" id="save-btn">
+                            💾 Guardar Cambios
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Tab: Mi Contrato -->
+            <div id="tab-contract" class="tab-content"
+                 role="tabpanel"
+                 aria-labelledby="tab-contract-btn"
+                 tabindex="0">
+                <div class="contract-section">
+                    <div class="contract-header">
+                        <h3>📄 Información del Contrato</h3>
+                        <p>Detalles de tu contratación con el proveedor de energía</p>
+                    </div>
+                    
+                    <div class="contract-card">
+                        <div class="contract-provider">
+                            <div class="provider-logo">🌿</div>
+                            <div class="provider-info">
+                                <h4 id="provider-name">Naturgy</h4>
+                                <span class="provider-badge">Energía Verde</span>
+                            </div>
+                        </div>
+                        
+                        <div class="contract-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Número de contrato anterior:</span>
+                                <span class="detail-value" id="contract-number">-</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Compañía anterior:</span>
+                                <span class="detail-value" id="previous-company">-</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Ahorro mensual estimado:</span>
+                                <span class="detail-value highlight" id="monthly-savings">30%</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Estado:</span>
+                                <span class="detail-value status-active">✓ Activo</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-notice">
+                        <div class="notice-icon">ℹ️</div>
+                        <div class="notice-content">
+                            <h4>Información importante</h4>
+                            <p>Tu contrato es <strong>directamente con <span id="provider-name-text">Naturgy</span></strong>, el proveedor de energía que has contratado. Nosotros solo facilitamos la conexión entre tú y el proveedor.</p>
+                            <p><strong>No somos intermediarios</strong> en tu servicio de energía. Una vez realizada la contratación, toda la gestión, facturación y atención al cliente la realiza directamente <span id="provider-name-text2">Naturgy</span>.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="account-deletion-notice">
+                        <div class="notice-icon">⚠️</div>
+                        <div class="notice-content">
+                            <h4>¿Quieres eliminar tu perfil?</h4>
+                            <p>Puedes eliminar tu perfil de esta plataforma en cualquier momento desde la pestaña de <strong>Configuración</strong>. Ten en cuenta que:</p>
+                            <ul>
+                                <li>Eliminar tu perfil de esta plataforma <strong>NO cancelará tu contrato</strong> con <span id="provider-name-text3">Naturgy</span></li>
+                                <li>Tu servicio de energía continuará activo con el proveedor</li>
+                                <li>Para gestionar o cancelar tu contrato energético, debes contactar directamente con <span id="provider-name-text4">Naturgy</span></li>
+                            </ul>
+                            <a href="#" onclick="profilePage.switchTab('settings'); return false;" class="btn btn-secondary">
+                                Ir a Configuración
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tab: Agregar Venta (solo para vendedores) -->
+            <div id="tab-add-sale" class="tab-content"
+                 role="tabpanel"
+                 aria-labelledby="tab-add-sale-btn"
+                 tabindex="0">
+                <!-- Calculadora para vendedores -->
+                <div id="seller-calculator-section" class="settings-section">
+                    <div class="calculator-header">
+                        <div class="calculator-icon">💡</div>
+                        <h3>Calculadora de Ahorro para Cliente</h3>
+                        <p>Ingresa los datos del cliente para calcular su ahorro potencial</p>
+                    </div>
+                    
+                    <form id="seller-calculator-form" class="settings-form">
+                        <div class="form-group">
+                            <label for="seller-calc-holder-name">Nombre del titular del contrato</label>
+                            <input type="text" id="seller-calc-holder-name" name="holder_name" required placeholder="Ej: Juan Pérez García">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="seller-calc-contract-number">Número de contrato</label>
+                            <input type="text" id="seller-calc-contract-number" name="contract_number" required placeholder="Ej: ES0031406893847000001JN">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="seller-calc-company-name">Nombre de la compañía eléctrica actual</label>
+                            <input type="text" id="seller-calc-company-name" name="company_name" required placeholder="Ej: Iberdrola, Endesa, EDP">
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="seller-calc-consumption">Consumo del mes anterior (kWh)</label>
+                                <input type="number" id="seller-calc-consumption" name="consumption" required placeholder="Ej: 250" min="0" step="0.01">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="seller-calc-monthly-amount">Importe mensual (€)</label>
+                                <input type="number" id="seller-calc-monthly-amount" name="monthly_amount" required placeholder="Ej: 85.50" min="0" step="0.01">
+                            </div>
+                        </div>
+                        
+                        <div id="seller-calc-error" class="message error" style="display: none;"></div>
+                        
+                        <button type="submit" class="btn btn-primary" id="seller-calculate-btn">
+                            <span class="btn-icon">📊</span> Calcular Ahorro del Cliente
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- Resultados y registro de cliente -->
+                <div id="seller-results-section" class="settings-section" style="display: none;">
+                    <div class="results-header" style="text-align: center; margin-bottom: 24px;">
+                        <div class="success-icon" style="font-size: 48px; margin-bottom: 16px;">✅</div>
+                        <h3 style="margin: 0 0 8px 0;">¡Excelente ahorro calculado!</h3>
+                        <p style="margin: 0; color: #64748b;">Ahora puedes registrar al cliente con estos datos</p>
+                    </div>
+                    
+                    <div class="savings-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 24px; border-radius: 12px; margin-bottom: 24px; text-align: center;">
+                        <div style="margin-bottom: 16px;">
+                            <span style="font-size: 14px; opacity: 0.9;">Factura actual</span>
+                            <div style="font-size: 24px; font-weight: bold; margin-top: 4px;" id="seller-result-current">€0.00</div>
+                        </div>
+                        <div style="font-size: 32px; margin: 16px 0;">⬇️</div>
+                        <div style="margin-bottom: 16px;">
+                            <span style="font-size: 18px; font-weight: 600;">¡Ahorro de</span>
+                            <div style="font-size: 36px; font-weight: bold; margin-top: 4px;" id="seller-result-savings">€0.00</div>
+                            <span style="font-size: 14px; opacity: 0.9;">30% de descuento</span>
+                        </div>
+                        <div style="font-size: 32px; margin: 16px 0;">⬇️</div>
+                        <div>
+                            <span style="font-size: 14px; opacity: 0.9;">Nueva factura con Naturgy</span>
+                            <div style="font-size: 24px; font-weight: bold; margin-top: 4px;" id="seller-result-new">€0.00</div>
+                        </div>
+                    </div>
+                    
+                    <h4 style="margin: 24px 0 16px 0;">👤 Datos para Registro del Cliente</h4>
+                    <form id="seller-register-form" class="settings-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="seller-reg-first-name">Nombre *</label>
+                                <input type="text" id="seller-reg-first-name" name="first_name" required placeholder="Juan">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="seller-reg-last-name">Primer apellido *</label>
+                                <input type="text" id="seller-reg-last-name" name="last_name" required placeholder="Pérez">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="seller-reg-second-last-name">Segundo apellido (opcional)</label>
+                            <input type="text" id="seller-reg-second-last-name" name="second_last_name" placeholder="García">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="seller-reg-email">Correo electrónico *</label>
+                            <input type="email" id="seller-reg-email" name="email" required placeholder="cliente@email.com">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="seller-reg-username">Nombre de usuario *</label>
+                            <input type="text" id="seller-reg-username" name="username" required placeholder="usuario123">
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="seller-reg-password">Contraseña *</label>
+                                <input type="password" id="seller-reg-password" name="password" required minlength="6" placeholder="••••••••">
+                                <small class="form-hint">Mínimo 6 caracteres</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="seller-reg-password-confirm">Confirmar contraseña *</label>
+                                <input type="password" id="seller-reg-password-confirm" name="password_confirm" required minlength="6" placeholder="••••••••">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="seller-reg-phone">Teléfono (opcional)</label>
+                            <input type="tel" id="seller-reg-phone" name="phone" placeholder="+34 600 000 000">
+                        </div>
+                        
+                        <div id="seller-reg-message" class="message" style="display: none;"></div>
+                        
+                        <div class="form-actions" style="display: flex; gap: 12px;">
+                            <button type="button" class="btn btn-secondary" id="seller-back-btn">
+                                ← Volver a Calculadora
+                            </button>
+                            <button type="submit" class="btn btn-primary" id="seller-register-btn" style="flex: 1;">
+                                ➕ Registrar Cliente
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Tab: Configuración -->
+            <div id="tab-settings" class="tab-content"
+                 role="tabpanel"
+                 aria-labelledby="tab-settings-btn"
+                 tabindex="0">
+                <div class="settings-section">
+                    <h3>🔐 Cambiar Contraseña</h3>
+                    <form id="password-form" class="settings-form">
+                        <div class="form-group">
+                            <label for="current-password">Contraseña actual</label>
+                            <input type="password" id="current-password" name="current_password" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="new-password">Nueva contraseña</label>
+                            <input type="password" id="new-password" name="new_password" required minlength="6">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="confirm-password">Confirmar contraseña</label>
+                            <input type="password" id="confirm-password" name="confirm_password" required minlength="6">
+                        </div>
+                        
+                        <div id="password-message" class="message" style="display: none;"></div>
+                        
+                        <button type="submit" class="btn btn-primary" id="password-btn">
+                            Cambiar Contraseña
+                        </button>
+                    </form>
+                </div>
+                
+                <div class="settings-section danger-zone">
+                    <h3><span aria-hidden="true">⚠️</span> Zona de Peligro</h3>
+                    <p>Una vez que elimines tu cuenta, no hay vuelta atrás. Por favor, está seguro.</p>
+                    <button type="button" class="btn btn-danger" onclick="profilePage.confirmDelete()"
+                            aria-label="Eliminar cuenta permanentemente">
+                        <span aria-hidden="true">🗑️</span> Eliminar Cuenta
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Tab: Administración - Contratos (solo para admin) -->
+            <div id="tab-admin-contracts" class="tab-content"
+                 role="tabpanel"
+                 aria-labelledby="tab-admin-contracts-btn"
+                 tabindex="0">
+                <div class="admin-contracts-section">
+
+                    <!-- Tabla 1: Contratos por vendedores -->
+                    <div class="admin-table-block">
+                        <div class="admin-table-header">
+                            <h3>👤 Contratos gestionados por vendedores</h3>
+                            <p>Contratos registrados a través de un vendedor. Se muestran incluso si el cliente eliminó su perfil.</p>
+                        </div>
+                        <div id="seller-contracts-loading" class="table-loading"
+                             role="status" aria-live="polite" aria-label="Cargando contratos...">
+                            <div class="loading-spinner" aria-hidden="true"></div>
+                            <span>Cargando contratos...</span>
+                        </div>
+                        <div id="seller-contracts-empty" class="table-empty" style="display:none;">
+                            📍 No hay contratos registrados por vendedores.
+                        </div>
+                        <div class="table-responsive" id="seller-contracts-table-wrap" style="display:none;">
+                            <table class="admin-contracts-table" aria-label="Contratos gestionados por vendedores">
+                                <caption class="sr-only">Contratos registrados a través de un vendedor</caption>
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Cliente</th>
+                                        <th scope="col">Email cliente</th>
+                                        <th scope="col">Vendedor</th>
+                                        <th scope="col">Plan</th>
+                                        <th scope="col">Proveedor</th>
+                                        <th scope="col">Estado</th>
+                                        <th scope="col">Comisión</th>
+                                        <th scope="col">Fecha</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="seller-contracts-tbody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Tabla 2: Contratos directos de usuarios -->
+                    <div class="admin-table-block">
+                        <div class="admin-table-header">
+                            <h3>🌐 Contratos realizados directamente por usuarios</h3>
+                            <p>Contratos contratados por usuarios desde la app sin intervención de un vendedor.</p>
+                        </div>
+                        <div id="direct-contracts-loading" class="table-loading"
+                             role="status" aria-live="polite" aria-label="Cargando contratos...">
+                            <div class="loading-spinner" aria-hidden="true"></div>
+                            <span>Cargando contratos...</span>
+                        </div>
+                        <div id="direct-contracts-empty" class="table-empty" style="display:none;">
+                            📍 No hay contratos directos de usuarios.
+                        </div>
+                        <div class="table-responsive" id="direct-contracts-table-wrap" style="display:none;">
+                            <table class="admin-contracts-table" aria-label="Contratos directos de usuarios">
+                                <caption class="sr-only">Contratos realizados directamente por usuarios sin vendedor</caption>
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Usuario</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Plan</th>
+                                        <th scope="col">Proveedor</th>
+                                        <th scope="col">Estado</th>
+                                        <th scope="col">Importe</th>
+                                        <th scope="col">Fecha</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="direct-contracts-tbody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Tab: Gestión (solo para admin) -->
+            <div id="tab-management" class="tab-content"
+                 role="tabpanel"
+                 aria-labelledby="tab-management-btn"
+                 tabindex="0">
+                <div class="settings-section">
+                    <h3>👤 Agregar Vendedor</h3>
+                    <p>Crea una cuenta de vendedor activa con acceso inmediato al sistema.</p>
+                    <form id="add-seller-form" class="settings-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="seller-first-name">Nombre *</label>
+                                <input type="text" id="seller-first-name" name="first_name" required placeholder="Juan">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="seller-last-name">Primer apellido *</label>
+                                <input type="text" id="seller-last-name" name="last_name" required placeholder="Pérez">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="seller-second-last-name">Segundo apellido (opcional)</label>
+                            <input type="text" id="seller-second-last-name" name="second_last_name" placeholder="García">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="seller-email">Correo electrónico *</label>
+                            <input type="email" id="seller-email" name="email" required placeholder="vendedor@email.com">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="seller-username">Nombre de usuario *</label>
+                            <input type="text" id="seller-username" name="username" required placeholder="vendedor123">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="seller-password">Contraseña *</label>
+                            <input type="password" id="seller-password" name="password" required minlength="6" placeholder="••••••••">
+                            <small class="form-hint">Mínimo 6 caracteres</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="seller-password-confirm">Confirmar contraseña *</label>
+                            <input type="password" id="seller-password-confirm" name="password_confirm" required minlength="6" placeholder="••••••••">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="seller-phone">Teléfono (opcional)</label>
+                            <input type="tel" id="seller-phone" name="phone" placeholder="+34 600 000 000">
+                        </div>
+                        
+                        <div id="seller-message" class="message" style="display: none;"></div>
+                        
+                        <button type="submit" class="btn btn-primary" id="add-seller-btn">
+                            ➕ Crear Vendedor
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de confirmación -->
+<div id="delete-modal" class="modal" style="display: none;"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="delete-modal-title"
+     aria-describedby="delete-modal-desc">
+    <div class="modal-content">
+        <h3 id="delete-modal-title">
+            <span aria-hidden="true">⚠️</span> ¿Eliminar cuenta?
+        </h3>
+        <p id="delete-modal-desc">Esta acción no se puede deshacer. Todos tus datos serán eliminados permanentemente.</p>
+        <div class="modal-actions">
+            <button type="button" class="btn btn-secondary" onclick="profilePage.closeDeleteModal()" autofocus>Cancelar</button>
+            <button type="button" class="btn btn-danger" onclick="profilePage.deleteAccount()">Sí, eliminar mi cuenta</button>
+        </div>
+    </div>
+</div>

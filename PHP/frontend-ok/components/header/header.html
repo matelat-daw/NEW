@@ -1,0 +1,36 @@
+<header class="header" role="banner">
+    <div class="header-container">
+        <!-- Logo: navegable por teclado con role=link -->
+        <div class="logo-section" role="button" tabindex="0" 
+             aria-label="Energy App - ir a la página de inicio"
+             onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();if(window.app)window.app.loadPage('home');}">
+            <span class="logo" aria-hidden="true">⚡</span>
+            <span class="site-title">Energy App</span>
+        </div>
+
+        <!-- Navegación principal -->
+        <nav class="header-actions" aria-label="Navegación principal">
+            <div id="user-menu-area"></div>
+            <button id="theme-toggle" class="icon-btn" 
+                    aria-label="Cambiar a tema oscuro"
+                    aria-pressed="false"
+                    title="Cambiar tema">
+                <span aria-hidden="true">🌙</span>
+            </button>
+            <button class="language-btn" onclick="changeLanguage()" 
+                    aria-label="Cambiar idioma a inglés / Switch language to Spanish"
+                    title="Switch to English / Cambiar a Español">
+                <span class="flag-icon" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30" width="24" height="12" focusable="false" aria-hidden="true">
+                        <path d="M0,0 v30 h60 v-30 z" fill="#012169"/>
+                        <path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/>
+                        <path d="M0,0 L60,30 M60,0 L0,30" stroke="#C8102E" stroke-width="4"/>
+                        <path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10"/>
+                        <path d="M30,0 v30 M0,15 h60" stroke="#C8102E" stroke-width="6"/>
+                    </svg>
+                </span>
+                <span class="sr-only">Inglés / English</span>
+            </button>
+        </nav>
+    </div>
+</header>

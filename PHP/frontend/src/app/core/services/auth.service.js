@@ -166,28 +166,29 @@ throw error;
 
         let imgPath = String(user.profileImg || '').trim();
         if (!imgPath) {
+            // Fallback si no hay profileImg (shouldn't happen after toDto())
             const gender = String(user.gender || '').trim().toUpperCase();
             if (gender === 'MALE') {
-                imgPath = 'default/male.png';
+                imgPath = 'uploads/default/male.png';
             } else if (gender === 'FEMALE') {
-                imgPath = 'default/female.png';
+                imgPath = 'uploads/default/female.png';
             } else {
-                imgPath = 'default/other.png';
+                imgPath = 'uploads/default/other.png';
             }
         }
         
-        // Limpiar ruta: remover "images/" si existe (para compatibilidad)
-        if (imgPath.startsWith('images/')) {
-            imgPath = imgPath.replace('images/', '');
+        // La ruta ya viene completa de la API: uploads/{userId}/profile.jpg
+        // Devolver la ruta absoluta: /uploads/{userId}/profile.jpg
+        if (imgPath.startsWith('uploads/')) {
+            return '/' + imgPath;
         }
         
-        // Construcción de URL
-        if (!API_CONFIG || !API_CONFIG.BASE_URL) {
-            return null;
+        // Compatibilidad con formatos antiguos
+        if (imgPath.startsWith('default/')) {
+            return '/uploads/' + imgPath;
         }
         
-        const fullUrl = `${API_CONFIG.BASE_URL}/images/${imgPath}`;
-        return fullUrl;
+        return '/' + imgPath;
     }
 
     /**

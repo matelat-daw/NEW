@@ -48,18 +48,25 @@ Utils.showMessage('Error', 'No se pudo cargar el dashboard', 'error');
             return;
         }
 
-        // Intentar refrescar los datos desde la API
+        // Intentar refrescar los datos desde la API SIEMPRE
         try {
             const url = API_CONFIG.BASE_URL + API_CONFIG.ENDPOINTS.PROFILE;
             const response = await Utils.makeRequest('GET', url);
             
             if (response.success && response.data) {
                 // Actualizar sesión con datos frescos del servidor
+                // IMPORTANTE: Esto refuerza que profileImg sea correcto desde el servidor
                 AuthService.setUserSession(response.data);
                 user = response.data;
+                
+                // Actualizar navbar inmediatamente
+                if (window.NavBar && typeof window.NavBar.reinit === 'function') {
+                    window.NavBar.reinit();
+                }
             }
         } catch (error) {
             // Si falla el refresh, usar datos del sessionStorage
+            console.warn('Error refreshing user data:', error);
         }
 
         // Actualizar nombre en bienvenida
@@ -69,7 +76,7 @@ Utils.showMessage('Error', 'No se pudo cargar el dashboard', 'error');
             userNameDisplay.innerHTML = `<strong>${user.nick}</strong> / ${fullName}`;
         }
 
-        // Actualizar foto de perfil con lazy loading y fallback
+        // Actualizar foto de perfil con lazy loading
         const profilePictureImg = document.getElementById('profilePictureImg');
         if (profilePictureImg) {
             profilePictureImg.loading = 'lazy';
@@ -82,9 +89,9 @@ Utils.showMessage('Error', 'No se pudo cargar el dashboard', 'error');
                 profilePictureImg.src = `${photoUrl}${sep}v=${version}`;
             }
 
-            // Fallback si la imagen falla (404 o red)
+            // Si la imagen falla, mostrar imagen default desde API
             profilePictureImg.onerror = () => {
-                profilePictureImg.src = '/frontend/src/assets/img/default-avatar.png';
+                profilePictureImg.src = `${API_CONFIG.BASE_URL}/images/default/other.png`;
                 profilePictureImg.onerror = null; // Evitar bucle infinito
             };
         }

@@ -1,0 +1,92 @@
+<div class="results-page" aria-labelledby="results-heading">
+    <div class="results-container">
+        <div class="results-header">
+            <div class="success-icon" aria-hidden="true">✅</div>
+            <h2 id="results-heading">¡Excelentes noticias!</h2>
+            <p>Hemos calculado tu ahorro potencial</p>
+        </div>
+        
+        <div class="results-content" aria-live="polite" aria-atomic="false">
+            <div class="savings-card" role="region" aria-label="Resumen de ahorro">
+                <div class="savings-header">
+                    <span class="label">Tu factura actual</span>
+                    <span class="current-amount" id="current-amount">€0.00</span>
+                </div>
+                
+                <div class="savings-arrow" aria-hidden="true">⬇️</div>
+                
+                <div class="savings-highlight">
+                    <div class="savings-label">¡Puedes ahorrar!</div>
+                    <div class="savings-amount" id="savings-amount">€0.00</div>
+                    <div class="savings-percentage">30% de descuento</div>
+                </div>
+                
+                <div class="savings-arrow" aria-hidden="true">⬇️</div>
+                
+                <div class="savings-footer">
+                    <span class="label">Tu nueva factura con Naturgy</span>
+                    <span class="new-amount" id="new-amount">€0.00</span>
+                </div>
+            </div>
+            
+            <div class="offer-card" role="region" aria-label="Oferta Naturgy">
+                <div class="offer-header">
+                    <h3><span aria-hidden="true">🌿</span> Oferta Naturgy</h3>
+                    <div class="company-badge">Energía Verde</div>
+                </div>
+                <ul class="offer-benefits" aria-label="Ventajas de la oferta">
+                    <li class="benefit-item">
+                        <span class="benefit-icon" aria-hidden="true">✓</span>
+                        <span>30% de ahorro garantizado</span>
+                    </li>
+                    <li class="benefit-item">
+                        <span class="benefit-icon" aria-hidden="true">✓</span>
+                        <span>100% energía renovable</span>
+                    </li>
+                    <li class="benefit-item">
+                        <span class="benefit-icon" aria-hidden="true">✓</span>
+                        <span>Sin permanencia</span>
+                    </li>
+                    <li class="benefit-item">
+                        <span class="benefit-icon" aria-hidden="true">✓</span>
+                        <span>Atención al cliente 24/7</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="contract-info" role="region" aria-labelledby="contract-info-heading">
+                <h4 id="contract-info-heading">
+                    <span aria-hidden="true">📋</span> Información de tu contrato actual
+                </h4>
+                <dl class="info-grid">
+                    <div class="info-item">
+                        <dt class="info-label">Titular:</dt>
+                        <dd class="info-value" id="holder-name">-</dd>
+                    </div>
+                    <div class="info-item">
+                        <dt class="info-label">Compañía actual:</dt>
+                        <dd class="info-value" id="company-name">-</dd>
+                    </div>
+                    <div class="info-item">
+                        <dt class="info-label">Consumo mensual:</dt>
+                        <dd class="info-value" id="consumption">-</dd>
+                    </div>
+                    <div class="info-item">
+                        <dt class="info-label">Nº de contrato:</dt>
+                        <dd class="info-value" id="contract-number">-</dd>
+                    </div>
+                </dl>
+            </div>
+            
+            <div class="action-buttons">
+                <button type="button" class="btn btn-primary btn-large" id="contract-btn">
+                    <span class="btn-icon" aria-hidden="true">🚀</span> Contratar ahora
+                </button>
+                <button type="button" class="btn btn-secondary" id="recalculate-btn">
+                    Calcular de nuevo
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -2,6 +2,7 @@
 
 namespace FuturePrograms\Clients\Utils;
 
+use Exception;
 use InvalidArgumentException;
 use RuntimeException;
 
@@ -158,13 +159,4 @@ final class ImageHelper
         }
         return $userDir;
     }
-
-    /**
-     * Obtiene el directorio base
-     */
-    public function getBaseDir(): string
-    {
-        return $this->baseDir;
-    }
 }
-

@@ -5,6 +5,7 @@ use FuturePrograms\Clients\Controllers\ProfileController;
 use FuturePrograms\Clients\Controllers\UserController;
 use FuturePrograms\Clients\Controllers\CustomerController;
 use FuturePrograms\Clients\Controllers\ImageController;
+use FuturePrograms\Clients\Utils\ImageHelper;
 use FuturePrograms\Clients\Middleware\CorsMiddleware;
 use FuturePrograms\Clients\Middleware\JwtMiddleware;
 use FuturePrograms\Clients\Middleware\AdminMiddleware;
@@ -58,13 +59,14 @@ $jwtGroup->add(new JwtMiddleware());
 
 // Group para rutas ADMIN o PREMIUM
 $customerGroup = $app->group('/api/myikea', function ($group) {
+    // Rutas de búsqueda (más específicas, PRIMERO)
     $group->get('/customer/search/firstName/{firstName}', [CustomerController::class, 'searchByFirstName']);
     $group->get('/customer/search/lastName/{lastName}', [CustomerController::class, 'searchByLastName']);
 
-    // Endpoint genérico
-    $group->get('/customer', [CustomerController::class, 'getAllCustomers']);
+    // Rutas genéricas (menos específicas, después)
     $group->get('/customer/{id}', [CustomerController::class, 'getCustomerById']);
     $group->delete('/customer/{id}', [CustomerController::class, 'deleteCustomer']);
+    $group->get('/customer', [CustomerController::class, 'getAllCustomers']);
 });
 
 // Agregar JWT + AdminOrPremium middleware
@@ -79,6 +81,30 @@ $app->get('/api/images/{path:.+}', [ImageController::class, 'serveImage'])->setN
 $app->get('/api/health', function ($request, $response) {
     $response->getBody()->write(json_encode(['status' => 'ok']));
     return $response->withHeader('Content-Type', 'application/json');
+});
+
+// ==================== FRONTEND - Servir index.html ====================
+
+// Ruta catch-all: Servir index.html para todas las rutas que no sean API
+$app->get('/{routes:.+}', function ($request, $response, $args) {
+    $indexPath = __DIR__ . '/index.html';
+    if (file_exists($indexPath)) {
+        return $response
+            ->withHeader('Content-Type', 'text/html; charset=utf-8')
+            ->withBody(new \Slim\Psr7\Stream(fopen($indexPath, 'r')));
+    }
+    return $response->withStatus(404);
+});
+
+// Ruta raíz: Servir index.html
+$app->get('/', function ($request, $response) {
+    $indexPath = __DIR__ . '/index.html';
+    if (file_exists($indexPath)) {
+        return $response
+            ->withHeader('Content-Type', 'text/html; charset=utf-8')
+            ->withBody(new \Slim\Psr7\Stream(fopen($indexPath, 'r')));
+    }
+    return $response->withStatus(404);
 });
 
 $app->options('/{routes:.+}', function ($request, $response) {

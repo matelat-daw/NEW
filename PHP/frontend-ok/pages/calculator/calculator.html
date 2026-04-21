@@ -1,0 +1,101 @@
+<div class="calculator-page">
+    <div class="calculator-container">
+
+        <section class="calculator-intro" aria-labelledby="calc-intro-heading">
+            <h1 id="calc-intro-heading">Calculadora de Ahorro Energético</h1>
+            <p class="intro-lead">Descubre en menos de 2 minutos cuánto puedes ahorrar en tu factura de luz. Comparamos las tarifas eléctricas de las principales comercializadoras de España y te mostramos la oferta más competitiva para tu perfil de consumo.</p>
+            <div class="intro-steps" aria-label="Pasos del proceso">
+                <div class="intro-step">
+                    <span class="step-badge" aria-hidden="true">1</span>
+                    <span>Introduce los datos de tu factura actual</span>
+                </div>
+                <div class="intro-step">
+                    <span class="step-badge" aria-hidden="true">2</span>
+                    <span>Calculamos tu ahorro potencial al instante</span>
+                </div>
+                <div class="intro-step">
+                    <span class="step-badge" aria-hidden="true">3</span>
+                    <span>Contrata la mejor tarifa sin coste ni permanencia</span>
+                </div>
+            </div>
+            <p class="intro-note"><strong>¿Qué necesitas?</strong> Solo tu última factura de electricidad. En ella encontrarás tu número de contrato (CUPS), el consumo en kWh y el importe total del mes.</p>
+        </section>
+
+        <div class="calculator-header">
+            <div class="calculator-icon" aria-hidden="true">💡</div>
+            <h2>Rellena el formulario con tu datos</h2>
+            <p>Descubre cuánto puedes ahorrar en tu factura de electricidad</p>
+        </div>
+        
+        <form id="calculator-form" class="calculator-form" novalidate aria-label="Calculadora de ahorro energético">
+            <div class="form-group">
+                <label for="calc-holder-name">Nombre del titular del contrato</label>
+                <input type="text" id="calc-holder-name" name="holder_name" required
+                       placeholder="Ej: Juan Pérez García"
+                       aria-required="true"
+                       autocomplete="name">
+            </div>
+            
+            <div class="form-group">
+                <label for="calc-contract-number">Número de contrato</label>
+                <input type="text" id="calc-contract-number" name="contract_number" required
+                       placeholder="Ej: ES0031406893847000001JN"
+                       aria-required="true"
+                       aria-describedby="calc-contract-hint">
+                <small id="calc-contract-hint" class="form-hint">Encuéntralo en tu factura de luz</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="calc-company-name">Nombre de la compañía eléctrica actual</label>
+                <input type="text" id="calc-company-name" name="company_name" required
+                       placeholder="Ej: Iberdrola, Endesa, EDP"
+                       aria-required="true">
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="calc-consumption">Consumo del mes anterior (kWh)</label>
+                    <input type="number" id="calc-consumption" name="consumption" required
+                           placeholder="Ej: 250" min="0" step="0.01"
+                           aria-required="true">
+                </div>
+                
+                <div class="form-group">
+                    <label for="calc-monthly-amount">Importe mensual (€)</label>
+                    <input type="number" id="calc-monthly-amount" name="monthly_amount" required
+                           placeholder="Ej: 85.50" min="0" step="0.01"
+                           aria-required="true">
+                </div>
+            </div>
+            
+            <div id="calculator-error" class="error-message" style="display: none;"
+                 role="alert" aria-live="assertive" aria-atomic="true"></div>
+            
+            <button type="submit" class="btn btn-primary btn-block" id="calculate-btn">
+                <span class="btn-icon" aria-hidden="true">📊</span> Calcular mi ahorro
+            </button>
+        </form>
+        
+        <div class="calculator-footer">
+            <p>¿Ya tienes cuenta? <a href="/" data-route="login" class="link">Inicia sesión aquí</a></p>
+        </div>
+
+        <section class="calculator-guarantees" aria-labelledby="guarantees-heading">
+            <h2 id="guarantees-heading">Por qué confiar en nuestra calculadora</h2>
+            <ul class="guarantees-list">
+                <li>
+                    <strong>Comparativa imparcial:</strong> No tenemos acuerdos de exclusividad con ninguna comercializadora. Mostramos las mejores —no las más rentables para nosotros.
+                </li>
+                <li>
+                    <strong>Datos en tiempo real:</strong> Las tarifas se actualizan constantemente para reflejar las condiciones vigentes del mercado eléctrico español.
+                </li>
+                <li>
+                    <strong>Sin letra pequeña:</strong> El precio que ves es el precio que pagas. Incluimos todos los conceptos de la factura: energía, peaje de acceso, impuestos y alquiler de contador.
+                </li>
+                <li>
+                    <strong>Gratis y sin compromiso:</strong> Usar la calculadora no te obliga a contratar nada. Puedes consultar y comparar las veces que quieras sin coste alguno.
+                </li>
+            </ul>
+        </section>
+    </div>
+</div>

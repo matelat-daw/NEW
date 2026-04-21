@@ -54,16 +54,18 @@ class UserController
                         'error' => UPLOAD_ERR_OK
                     ];
 
-                    ImageHelper::validateImageFile($fileArray);
-                    ImageHelper::ensureUserImageDirectory($userId);
-
-                    $extension = pathinfo($profilePicture->getClientFilename(), PATHINFO_EXTENSION);
-                    $filePath = ImageHelper::getUploadDir() . '/' . $userId . '/profile.' . $extension;
-                    $profilePicture->moveTo($filePath);
-
-                    $userModel->updateProfileImage($userId, 'profile.' . $extension);
-                } catch (\Exception $e) {
-                    // Continuar sin imagen si falla
+                    // Usar ImageHelper optimizado para validación y guardado
+                    $uploadDir = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'uploads';
+                    $imageHelper = new ImageHelper($uploadDir);
+                    
+                    $imageHelper->validateUpload($fileArray);
+                    $fileName = $imageHelper->saveProfileImage($fileArray, $userId);
+                    
+                    $userModel->updateProfileImage($userId, $fileName);
+                } catch (\InvalidArgumentException $e) {
+                    // Continuar sin imagen si falla validación
+                } catch (\RuntimeException $e) {
+                    // Continuar sin imagen si falla guardado
                 }
             }
 

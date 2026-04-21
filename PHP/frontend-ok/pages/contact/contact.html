@@ -1,0 +1,133 @@
+<div class="contact-page" aria-labelledby="contact-heading">
+    <div class="contact-container">
+        <div class="page-header">
+            <div class="page-icon" aria-hidden="true">📧</div>
+            <h1 id="contact-heading">Contacto</h1>
+            <p class="tagline">Estamos aquí para ayudarte</p>
+        </div>
+
+        <div class="contact-content">
+            <div class="contact-info">
+                <h2>Información de Contacto</h2>
+                
+                <div class="info-item">
+                    <div class="info-icon" aria-hidden="true">📧</div>
+                    <div class="info-text">
+                        <h3>Email</h3>
+                        <a href="mailto:info@energyapp.com">info@energyapp.com</a>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-icon" aria-hidden="true">📞</div>
+                    <div class="info-text">
+                        <h3>Teléfono</h3>
+                        <a href="tel:+34900123456">+34 900 123 456</a>
+                        <p class="small-text">Lunes a Viernes: 9:00 - 18:00</p>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-icon" aria-hidden="true">📍</div>
+                    <div class="info-text">
+                        <h3>Dirección</h3>
+                        <address>Calle Energía, 123<br>28001 Madrid, España</address>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-icon" aria-hidden="true">⏰</div>
+                    <div class="info-text">
+                        <h3>Horario de Atención</h3>
+                        <p>Lunes a Viernes: 9:00 - 18:00<br>Sábados: 10:00 - 14:00</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-form-wrapper">
+                <h2>Envíanos un Mensaje</h2>
+                <form id="contact-form" class="contact-form" novalidate aria-label="Formulario de contacto">
+                    <div class="form-group">
+                        <label for="contact-name">Nombre completo</label>
+                        <input type="text" id="contact-name" name="name" required 
+                               placeholder="Juan Pérez" aria-required="true" autocomplete="name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contact-email">Correo electrónico</label>
+                        <input type="email" id="contact-email" name="email" required
+                               placeholder="tu@email.com"
+                               aria-required="true"
+                               autocomplete="email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contact-phone">Teléfono <span class="sr-only">(opcional)</span></label>
+                        <input type="tel" id="contact-phone" name="phone"
+                               placeholder="+34 600 000 000"
+                               autocomplete="tel">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contact-subject">Asunto</label>
+                        <select id="contact-subject" name="subject" required aria-required="true">
+                            <option value="">Selecciona un asunto</option>
+                            <option value="info">Información general</option>
+                            <option value="support">Soporte técnico</option>
+                            <option value="billing">Facturación</option>
+                            <option value="offers">Consulta de ofertas</option>
+                            <option value="other">Otro</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contact-message">Mensaje</label>
+                        <textarea id="contact-message" name="message" required rows="6"
+                                  placeholder="Escribe tu mensaje aquí..."
+                                  aria-required="true"></textarea>
+                    </div>
+
+                    <div id="contact-response" class="response-message" style="display: none;"
+                         role="alert" aria-live="polite" aria-atomic="true"></div>
+
+                    <button type="submit" class="btn btn-primary btn-block" id="contact-btn">
+                        Enviar Mensaje
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="contact-note">
+            <h2>¿En qué podemos ayudarte?</h2>
+            <p>Nuestro equipo de atención al cliente está formado por especialistas en el mercado eléctrico español. Resolvemos cualquier duda sobre tarifas, consumo, cambio de comercializadora, facturación o uso de la plataforma. Respondemos todos los mensajes en un plazo máximo de 24 horas laborables.</p>
+        </div>
+
+        <section class="contact-faq" aria-labelledby="contact-faq-heading">
+            <h2 id="contact-faq-heading">Preguntas habituales de contacto</h2>
+            <div class="faq-list">
+                <details class="faq-item">
+                    <summary class="faq-question">¿Cuánto tarda en responderse un mensaje?</summary>
+                    <div class="faq-answer">
+                        <p>Respondemos todos los mensajes en un plazo máximo de 24 horas en días laborables (lunes a viernes). Para consultas urgentes te recomendamos llamarnos al <a href="tel:+34900123456">900 123 456</a>, nuestro número gratuito disponible de 9:00 a 18:00 horas.</p>
+                    </div>
+                </details>
+                <details class="faq-item">
+                    <summary class="faq-question">¿Cómo puedo cancelar un contrato gestionado a través de Energy App?</summary>
+                    <div class="faq-answer">
+                        <p>Si contrataste una tarifa a través de nuestra plataforma y deseas cancelarla, puedes hacerlo directamente desde tu perfil de usuario en el apartado "Mis contratos". También puedes contactarnos por email o teléfono y te guiaremos en el proceso de baja o cambio de tarifa.</p>
+                    </div>
+                </details>
+                <details class="faq-item">
+                    <summary class="faq-question">¿Puedo usar Energy App si soy autónomo o tengo una pequeña empresa?</summary>
+                    <div class="faq-answer">
+                        <p>Sí. Energy App está diseñada tanto para hogares como para pequeños negocios y autónomos con suministros eléctricos en baja tensión. Si tienes un comercio, oficina o local, también podemos ayudarte a encontrar la tarifa más competitiva para tu actividad.</p>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <div class="back-link">
+            <a href="/" data-route="home" class="btn btn-outline">← Volver al inicio</a>
+        </div>
+    </div>
+</div>

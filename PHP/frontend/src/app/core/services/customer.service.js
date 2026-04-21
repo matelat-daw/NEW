@@ -50,6 +50,21 @@ class CustomerService {
     }
 
     /**
+     * Busca customers por apellido
+     * @param {string} lastName - Apellido a buscar
+     * @returns {Promise<Object>}
+     */
+    static async searchByLastName(lastName) {
+        try {
+            const url = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.CUSTOMER_SEARCH_LASTNAME.replace(':lastName', encodeURIComponent(lastName))}`;
+            const response = await Utils.makeRequest('GET', url);
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    /**
      * Elimina un customer
      * @param {number} id - ID del customer
      * @returns {Promise<Object>}

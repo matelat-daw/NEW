@@ -314,8 +314,16 @@ class User
     public static function toDto($user)
     {
         $profileImg = $user['profileImg'] ?? null;
-        if (!$profileImg || trim((string)$profileImg) === '') {
+        $profileImg = $profileImg ? trim((string)$profileImg) : '';
+        
+        // Si no tiene foto de perfil, devolver imagen default
+        if (empty($profileImg)) {
             $profileImg = self::getDefaultProfileImagePath($user['gender'] ?? null);
+        } else {
+            // Tiene foto de perfil: prepend 'uploads/' si no lo tiene ya
+            if (!str_starts_with($profileImg, 'uploads/')) {
+                $profileImg = 'uploads/' . $profileImg;
+            }
         }
 
         return [
@@ -342,13 +350,13 @@ class User
         $normalized = strtoupper(trim((string)$gender));
 
         if ($normalized === 'MALE') {
-            return 'default/male.png';
+            return 'uploads/default/male.png';
         }
 
         if ($normalized === 'FEMALE') {
-            return 'default/female.png';
+            return 'uploads/default/female.png';
         }
 
-        return 'default/other.png';
+        return 'uploads/default/other.png';
     }
 }

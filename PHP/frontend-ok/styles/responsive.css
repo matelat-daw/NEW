@@ -1,0 +1,40 @@
+/* Responsive Design */
+
+/* Tablets y pantallas medianas */
+@media (max-width: 768px) {
+    main#main-content {
+        padding: 1rem;
+    }
+    
+    .container {
+        padding: 0 0.75rem;
+    }
+    
+    .btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Móviles */
+@media (max-width: 480px) {
+    main#main-content {
+        padding: 0.5rem;
+    }
+    
+    .btn {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+    
+    .card {
+        padding: 1rem;
+    }
+}
+
+/* Pantallas grandes */
+@media (min-width: 1400px) {
+    main#main-content {
+        max-width: 1600px;
+    }
+}

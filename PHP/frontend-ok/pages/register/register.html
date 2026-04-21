@@ -1,0 +1,117 @@
+<div class="register-page">
+    <div class="register-container">
+        <div class="register-header">
+            <div class="register-icon" aria-hidden="true">📝</div>
+            <h2>Crear Cuenta</h2>
+            <p>Únete a Energy App y comienza a ahorrar</p>
+        </div>
+        
+        <form id="register-form" class="register-form" novalidate aria-label="Formulario de registro">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="reg-first-name">Nombre</label>
+                    <input type="text" id="reg-first-name" name="first_name" required 
+                           placeholder="Juan" aria-required="true" autocomplete="given-name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="reg-last-name">Primer apellido</label>
+                    <input type="text" id="reg-last-name" name="last_name" required 
+                           placeholder="Pérez" aria-required="true" autocomplete="family-name">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="reg-second-last-name">Segundo apellido <span class="sr-only">(opcional)</span></label>
+                <input type="text" id="reg-second-last-name" name="second_last_name" 
+                       placeholder="García" autocomplete="additional-name">
+            </div>
+            
+            <div class="form-group">
+                <label for="reg-email">Correo electrónico</label>
+                <input type="email" id="reg-email" name="email" required 
+                       placeholder="tu@email.com" aria-required="true" autocomplete="email">
+            </div>
+            
+            <div class="form-group">
+                <label for="reg-username">Nombre de usuario</label>
+                <input type="text" id="reg-username" name="username" required 
+                       placeholder="usuario123" aria-required="true" autocomplete="username">
+            </div>
+            
+            <div class="form-group">
+                <label for="reg-password">Contraseña</label>
+                <div class="password-input-wrapper">
+                    <input type="password" id="reg-password" name="password" required 
+                           placeholder="••••••••" minlength="6"
+                           aria-required="true"
+                           aria-describedby="reg-password-hint"
+                           autocomplete="new-password">
+                    <button type="button" class="password-toggle" id="toggle-password-1" 
+                            aria-label="Mostrar contraseña"
+                            aria-controls="reg-password"
+                            aria-pressed="false">
+                        <svg class="eye-icon" width="20" height="20" viewBox="0 0 24 24" 
+                             fill="none" stroke="currentColor" stroke-width="2"
+                             aria-hidden="true" focusable="false">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </button>
+                </div>
+                <small id="reg-password-hint" class="form-hint">Mínimo 6 caracteres</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="reg-password-confirm">Confirmar contraseña</label>
+                <div class="password-input-wrapper">
+                    <input type="password" id="reg-password-confirm" name="password_confirm" required 
+                           placeholder="••••••••" minlength="6"
+                           aria-required="true"
+                           autocomplete="new-password">
+                    <button type="button" class="password-toggle" id="toggle-password-2" 
+                            aria-label="Mostrar contraseña de confirmación"
+                            aria-controls="reg-password-confirm"
+                            aria-pressed="false">
+                        <svg class="eye-icon" width="20" height="20" viewBox="0 0 24 24" 
+                             fill="none" stroke="currentColor" stroke-width="2"
+                             aria-hidden="true" focusable="false">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="reg-phone">Teléfono <span class="sr-only">(opcional)</span></label>
+                <input type="tel" id="reg-phone" name="phone" 
+                       placeholder="+34 600 000 000" autocomplete="tel">
+            </div>
+            
+            <div class="form-group privacy-group">
+                <div class="checkbox-label">
+                    <input type="checkbox" id="reg-privacy" name="privacy" required
+                           aria-required="true"
+                           aria-describedby="privacy-desc">
+                    <label for="reg-privacy" class="checkbox-text" id="privacy-desc">
+                        Acepto la 
+                        <a href="/" data-route="privacy" class="privacy-link">política de privacidad</a>
+                        para beneficiarme de las ofertas
+                    </label>
+                </div>
+            </div>
+            
+            <div id="register-error" class="error-message" style="display: none;"
+                 role="alert" aria-live="assertive" aria-atomic="true"></div>
+            
+            <button type="submit" class="btn btn-primary btn-block" id="register-btn">
+                Crear Cuenta
+            </button>
+        </form>
+        
+        <div class="register-footer">
+            <p>¿Ya tienes cuenta? <a href="/" data-route="login" class="link">Inicia sesión aquí</a></p>
+        </div>
+    </div>
+</div>

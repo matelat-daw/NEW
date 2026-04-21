@@ -296,7 +296,9 @@ this.showAlert(error.message || 'Error al actualizar perfil', 'danger');
 
             const response = await fetch(this.api + '/picture', {
                 method: 'POST',
-                credentials: 'include',
+                headers: {
+                    'Authorization': `Bearer ${AuthService.getJwtToken()}`
+                },
                 body: formData
             });
 

@@ -49,7 +49,7 @@ const res = await UserService.getUserById(this.userId);
         
         // Determinar imagen del usuario
         const userImg = this.user.profileImg ? 
-            `${API_CONFIG.BASE_URL}/images/${this.user.profileImg}` :
+            `/${this.user.profileImg}` :
             null;
         
         return `

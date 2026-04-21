@@ -100,30 +100,28 @@ class ProfileController
                 throw new \Exception('No image file provided');
             }
 
-            // Convertir UploadedFile a formato estándar de $_FILES
-            $fileArray = [
+            // Convertir PSR-7 UploadedFileInterface a formato estándar $_FILES
+            $file = [
+                'name'     => $profilePicture->getClientFilename(),
+                'type'     => $profilePicture->getClientMediaType(),
+                'size'     => $profilePicture->getSize(),
                 'tmp_name' => $profilePicture->getStream()->getMetadata('uri'),
-                'name' => $profilePicture->getClientFilename(),
-                'size' => $profilePicture->getSize(),
-                'error' => UPLOAD_ERR_OK
+                'error'    => $profilePicture->getError(),
             ];
 
-            ImageHelper::validateImageFile($fileArray);
-            ImageHelper::ensureUserImageDirectory($user['userId']);
+            // Utilizar ImageHelper optimizado para validación y guardado
+            $uploadDir = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'uploads';
+            $imageHelper = new ImageHelper($uploadDir);
+            
+            // Validar archivo
+            $imageHelper->validateUpload($file);
 
-            $fileName = $profilePicture->getClientFilename();
-            $uploadDir = ImageHelper::getUploadDir();
-            $userDir = $uploadDir . '/' . $user['userId'];
+            // Guardar imagen y obtener nombre del archivo
+            $fileName = $imageHelper->saveProfileImage($file, $user['userId']);
 
-            if (!is_dir($userDir)) {
-                mkdir($userDir, 0755, true);
-            }
-
-            $filePath = $userDir . '/profile.' . pathinfo($fileName, PATHINFO_EXTENSION);
-            $profilePicture->moveTo($filePath);
-
+            // Actualizar base de datos con referencia al archivo
             $userModel = new User();
-            $updated = $userModel->updateProfileImage($user['userId'], 'profile.' . pathinfo($fileName, PATHINFO_EXTENSION));
+            $updated = $userModel->updateProfileImage($user['userId'], $fileName);
 
             $result = ResponseFormatter::success(
                 User::toDto($updated),
@@ -133,6 +131,12 @@ class ProfileController
 
             return $this->jsonResponse($response, $result['body'], $result['status']);
 
+        } catch (\InvalidArgumentException $e) {
+            $result = ResponseFormatter::error($e->getMessage(), 400);
+            return $this->jsonResponse($response, $result['body'], $result['status']);
+        } catch (\RuntimeException $e) {
+            $result = ResponseFormatter::error($e->getMessage(), 500);
+            return $this->jsonResponse($response, $result['body'], $result['status']);
         } catch (\Exception $e) {
             $result = ResponseFormatter::error($e->getMessage(), 400);
             return $this->jsonResponse($response, $result['body'], $result['status']);

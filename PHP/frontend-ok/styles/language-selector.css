@@ -1,0 +1,133 @@
+/* Language Selector Styles */
+
+/* Ocultar completamente todos los elementos de Google Translate */
+#google_translate_element {
+    display: none !important;
+}
+
+.goog-te-banner-frame.skiptranslate {
+    display: none !important;
+}
+
+.goog-te-banner-frame {
+    display: none !important;
+}
+
+.skiptranslate {
+    display: none !important;
+}
+
+body {
+    top: 0px !important;
+    position: static !important;
+}
+
+html {
+    position: static !important;
+}
+
+/* Forzar que no aparezca la barra superior */
+body > .skiptranslate,
+body > iframe.skiptranslate,
+iframe.goog-te-banner-frame,
+.goog-te-banner,
+#goog-gt-tt,
+.goog-te-balloon-frame {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    position: absolute !important;
+    top: -9999px !important;
+    left: -9999px !important;
+}
+
+/* Ocultar TODOS los elementos del widget de Google Translate */
+.goog-te-gadget,
+.goog-te-gadget-simple,
+.goog-te-menu-value,
+.goog-te-menu-value span,
+.goog-te-gadget-icon,
+body > div#google_translate_element,
+body > div.skiptranslate,
+.goog-logo-link,
+.goog-te-menu-frame,
+.VIpgJd-ZVi9od-aZ2wEe-wOHMyf,
+.VIpgJd-ZVi9od-aZ2wEe-wOHMyf-ti6hGc,
+.VIpgJd-ZVi9od-l4eHX-hSRGPd,
+[id^="goog-"],
+[class*="goog-te"],
+[class*="goog-"],
+[id*="google_translate"],
+div[style*="position: absolute"][style*="z-index"] img[src*="translate.google"],
+img[src*="translate.gstatic.com"],
+img[src*="translate.google.com"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    position: absolute !important;
+    top: -9999px !important;
+    left: -9999px !important;
+    width: 0 !important;
+    height: 0 !important;
+    pointer-events: none !important;
+}
+
+/* Ocultar específicamente elemento flotante superior izquierdo de Google */
+body > div:not(#app):not(.header):not(main):not(footer)[style*="position"],
+body > span:not(#app)[style*="position"],
+body > img:not(#app)[style*="position"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+}
+
+/* Estilos para el selector de idioma flotante (si se usa) */
+.language-selector {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.language-selector .language-btn {
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    padding: 8px 15px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.language-selector .language-btn:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary-color);
+    box-shadow: var(--shadow-lg);
+}
+
+.language-selector .flag-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.language-selector .flag-icon svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.6);
+}
+
+.language-selector .lang-text {
+    font-size: 0.9rem;
+}

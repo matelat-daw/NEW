@@ -167,4 +167,3 @@ final class ImageHelper
         return $this->baseDir;
     }
 }
-

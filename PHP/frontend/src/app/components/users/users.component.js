@@ -146,7 +146,7 @@ const container = document.querySelector(this.selector);
             <tr>
                 <td>
                     ${user.profileImg ? 
-                        `<img src="${API_CONFIG.BASE_URL}/images/${user.profileImg}" alt="${user.nick}" class="img-thumbnail rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">` :
+                        `<img src="/${user.profileImg}" alt="${user.nick}" class="img-thumbnail rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">` :
                         `<div class="bg-secondary rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 40px; height: 40px;"><i class="fas fa-user text-white"></i></div>`
                     }
                 </td>
