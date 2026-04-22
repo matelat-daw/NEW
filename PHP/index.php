@@ -11,6 +11,7 @@ use FuturePrograms\Clients\Middleware\JwtMiddleware;
 use FuturePrograms\Clients\Middleware\AdminMiddleware;
 use FuturePrograms\Clients\Middleware\AdminOrPremiumMiddleware;
 use Slim\Factory\AppFactory;
+use Slim\Psr7\Stream;
 
 // Cargar autoloader
 require __DIR__ . '/vendor/autoload.php';
@@ -21,13 +22,13 @@ $app = AppFactory::create();
 // Middleware para parsear JSON bodies automáticamente
 $app->addBodyParsingMiddleware();
 
-// Añadir middleware globales
-$app->add(new CorsMiddleware());
-
-// Middleware para manejo de excepciones
+// Middleware para manejo de excepciones (debe estar antes de middleware de negocio)
 $errorMiddleware = $app->addErrorMiddleware(true, true, true);
 $errorHandler = $errorMiddleware->getDefaultErrorHandler();
 $errorHandler->forceContentType('application/json');
+
+// Añadir middleware globales (CORS al final, se ejecuta primero)
+$app->add(new CorsMiddleware());
 
 // ==================== RUTAS PÚBLICAS ====================
 
@@ -38,7 +39,13 @@ $app->get('/api/auth/verify/{token}', [AuthController::class, 'verifyEmail']);
 // User endpoints - Register es público
 $app->post('/api/user/register', [UserController::class, 'register']);
 
-// ==================== RUTAS PROTEGIDAS ====================
+// Health check
+$app->get('/api/health', function ($request, $response) {
+    $response->getBody()->write(json_encode(['status' => 'ok']));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
+// ==================== RUTAS PROTEGIDAS CON JWT ====================
 
 // Group para rutas que requieren JWT
 $jwtGroup = $app->group('', function ($group) {
@@ -54,8 +61,10 @@ $jwtGroup = $app->group('', function ($group) {
     $group->get('/api/user/{id}', [UserController::class, 'getUserById']);
 });
 
-// Agregar middleware JWT al grupo
+// Agregar middleware JWT al grupo (orden correcto: JWT primero)
 $jwtGroup->add(new JwtMiddleware());
+
+// ==================== RUTAS ADMIN O PREMIUM ====================
 
 // Group para rutas ADMIN o PREMIUM
 $customerGroup = $app->group('/api/myikea', function ($group) {
@@ -69,40 +78,35 @@ $customerGroup = $app->group('/api/myikea', function ($group) {
     $group->get('/customer', [CustomerController::class, 'getAllCustomers']);
 });
 
-// Agregar JWT + AdminOrPremium middleware
+// Agregar middleware al grupo (JWT primero, luego rol - orden correcto LIFO)
 $customerGroup->add(new AdminOrPremiumMiddleware());
 $customerGroup->add(new JwtMiddleware());
 
-// Image endpoint - requerido por frontend para profileImg
+// ==================== RUTAS DE IMÁGENES ====================
+
+// Image endpoint - requerido por frontend para profileImg (sin protección para cargar desde frontend)
 $app->get('/api/images/{path:.+}', [ImageController::class, 'serveImage'])->setName('serveImage');
 
-// ==================== HEALTH CHECK ====================
+// ==================== FRONTEND - Servir SPA ====================
 
-$app->get('/api/health', function ($request, $response) {
-    $response->getBody()->write(json_encode(['status' => 'ok']));
-    return $response->withHeader('Content-Type', 'application/json');
-});
-
-// ==================== FRONTEND - Servir index.html ====================
-
-// Ruta catch-all: Servir index.html para todas las rutas que no sean API
-$app->get('/{routes:.+}', function ($request, $response, $args) {
-    $indexPath = __DIR__ . '/index.html';
-    if (file_exists($indexPath)) {
-        return $response
-            ->withHeader('Content-Type', 'text/html; charset=utf-8')
-            ->withBody(new \Slim\Psr7\Stream(fopen($indexPath, 'r')));
-    }
-    return $response->withStatus(404);
-});
-
-// Ruta raíz: Servir index.html
+// Ruta raíz
 $app->get('/', function ($request, $response) {
     $indexPath = __DIR__ . '/index.html';
     if (file_exists($indexPath)) {
         return $response
             ->withHeader('Content-Type', 'text/html; charset=utf-8')
-            ->withBody(new \Slim\Psr7\Stream(fopen($indexPath, 'r')));
+            ->withBody(new Stream(fopen($indexPath, 'r')));
+    }
+    return $response->withStatus(404);
+});
+
+// Ruta catch-all: Servir index.html para todas las rutas no-API (ÚLTIMA RUTA)
+$app->get('/{routes:.+}', function ($request, $response, $args) {
+    $indexPath = __DIR__ . '/index.html';
+    if (file_exists($indexPath)) {
+        return $response
+            ->withHeader('Content-Type', 'text/html; charset=utf-8')
+            ->withBody(new Stream(fopen($indexPath, 'r')));
     }
     return $response->withStatus(404);
 });

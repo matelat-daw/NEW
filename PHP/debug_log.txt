@@ -1,0 +1,143 @@
+--- New Upload Request ---
+User authenticated: ID 3
+File data received: Array
+(
+    [profilePicture] => Array
+        (
+            [name] => other.png
+            [full_path] => other.png
+            [type] => image/png
+            [tmp_name] => C:\Users\orion\AppData\Local\Temp\php9095.tmp
+            [error] => 0
+            [size] => 14416
+        )
+
+)
+
+File is a valid uploaded file.
+Upload directory: D:\BackUp\NEW\PHP\uploads\3
+--- New Upload Request ---
+User authenticated: ID 3
+File data received: Array
+(
+    [profilePicture] => Array
+        (
+            [name] => other.png
+            [full_path] => other.png
+            [type] => image/png
+            [tmp_name] => C:\Users\orion\AppData\Local\Temp\phpB407.tmp
+            [error] => 0
+            [size] => 14416
+        )
+
+)
+
+File is a valid uploaded file.
+Upload directory: uploads\3
+--- New Upload Request ---
+User authenticated: ID 3
+File data received: Array
+(
+    [profilePicture] => Array
+        (
+            [name] => other.png
+            [full_path] => other.png
+            [type] => image/png
+            [tmp_name] => C:\Users\orion\AppData\Local\Temp\phpB2AC.tmp
+            [error] => 0
+            [size] => 14416
+        )
+
+)
+
+File is a valid uploaded file.
+Base directory: D:\BackUp\NEW\PHP
+Uploads directory path: D:\BackUp\NEW\PHP\uploads
+User directory path: D:\BackUp\NEW\PHP\uploads\3
+--- New Upload Request ---
+User authenticated: ID 3
+File data received: Array
+(
+    [profilePicture] => Array
+        (
+            [name] => other.png
+            [full_path] => other.png
+            [type] => image/png
+            [tmp_name] => C:\Users\orion\AppData\Local\Temp\phpE51F.tmp
+            [error] => 0
+            [size] => 14416
+        )
+
+)
+
+File is a valid uploaded file.
+Base directory: D:\BackUp\NEW\PHP
+Uploads directory path: D:\BackUp\NEW\PHP\uploads
+User directory path: D:\BackUp\NEW\PHP\uploads\3
+--- New Upload Request ---
+User authenticated: ID 3
+File data received: Array
+(
+    [profilePicture] => Array
+        (
+            [name] => other.png
+            [full_path] => other.png
+            [type] => image/png
+            [tmp_name] => C:\Users\orion\AppData\Local\Temp\phpA7.tmp
+            [error] => 0
+            [size] => 14416
+        )
+
+)
+
+File is a valid uploaded file.
+Base directory: D:\BackUp\NEW\PHP
+Uploads directory path: D:\BackUp\NEW\PHP\uploads
+User directory path: D:\BackUp\NEW\PHP\uploads\3
+--- New Upload Request ---
+User authenticated: ID 3
+File data received: Array
+(
+    [profilePicture] => Array
+        (
+            [name] => other.png
+            [full_path] => other.png
+            [type] => image/png
+            [tmp_name] => C:\Users\orion\AppData\Local\Temp\php5521.tmp
+            [error] => 0
+            [size] => 14416
+        )
+
+)
+
+File is a valid uploaded file.
+Base directory: D:\BackUp\NEW\PHP
+Uploads directory path: D:\BackUp\NEW\PHP\uploads
+User directory path: D:\BackUp\NEW\PHP\uploads\3
+--- New Upload Request ---
+User authenticated: ID 3
+File data received: Array
+(
+    [profilePicture] => Array
+        (
+            [name] => other.png
+            [full_path] => other.png
+            [type] => image/png
+            [tmp_name] => C:\Users\orion\AppData\Local\Temp\php29D5.tmp
+            [error] => 0
+            [size] => 14416
+        )
+
+)
+
+File is a valid uploaded file.
+Base directory: D:\BackUp\NEW\PHP
+Uploads directory path: D:\BackUp\NEW\PHP\uploads
+User directory path: D:\BackUp\NEW\PHP\uploads\3
+MIME type detected: image/png
+File extension set to: png
+Target path: D:\BackUp\NEW\PHP\uploads\3\profile.png
+Old file D:\BackUp\NEW\PHP\uploads\3\profile.png deleted.
+File moved to D:\BackUp\NEW\PHP\uploads\3\profile.png.
+Updating database with new profile image: profile.png
+Database updated successfully.

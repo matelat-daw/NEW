@@ -86,42 +86,120 @@ class ProfileController
      */
     public function updateProfilePicture(Request $request, Response $response): Response
     {
+        $logFile = dirname(dirname(__DIR__)) . '/debug_log.txt';
+        file_put_contents($logFile, "--- New Upload Request ---\n", FILE_APPEND);
+
         try {
             $user = $request->getAttribute('user');
             if (!$user || !isset($user['userId'])) {
+                file_put_contents($logFile, "Error: Unauthorized access attempt.\n", FILE_APPEND);
                 $result = ResponseFormatter::error('Unauthorized', 401);
                 return $this->jsonResponse($response, $result['body'], $result['status']);
             }
+            file_put_contents($logFile, "User authenticated: ID " . $user['userId'] . "\n", FILE_APPEND);
 
-            $uploadedFiles = $request->getUploadedFiles();
-            $profilePicture = $uploadedFiles['profilePicture'] ?? null;
+            // Usar $_FILES directamente
+            if (empty($_FILES['profilePicture'])) {
+                file_put_contents($logFile, "Error: \$_FILES['profilePicture'] is empty.\n", FILE_APPEND);
+                throw new \Exception('No file provided');
+            }
+            file_put_contents($logFile, "File data received: " . print_r($_FILES, true) . "\n", FILE_APPEND);
 
-            if (!$profilePicture) {
-                throw new \Exception('No image file provided');
+
+            $file = $_FILES['profilePicture'];
+
+            // Validar error
+            if ($file['error'] !== UPLOAD_ERR_OK) {
+                $errorMessage = 'Upload error code: ' . $file['error'];
+                file_put_contents($logFile, "Error: " . $errorMessage . "\n", FILE_APPEND);
+                if ($file['error'] === UPLOAD_ERR_NO_FILE) {
+                    throw new \Exception('No file uploaded');
+                }
+                throw new \Exception($errorMessage);
             }
 
-            // Convertir PSR-7 UploadedFileInterface a formato estándar $_FILES
-            $file = [
-                'name'     => $profilePicture->getClientFilename(),
-                'type'     => $profilePicture->getClientMediaType(),
-                'size'     => $profilePicture->getSize(),
-                'tmp_name' => $profilePicture->getStream()->getMetadata('uri'),
-                'error'    => $profilePicture->getError(),
-            ];
-
-            // Utilizar ImageHelper optimizado para validación y guardado
-            $uploadDir = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'uploads';
-            $imageHelper = new ImageHelper($uploadDir);
-            
             // Validar archivo
-            $imageHelper->validateUpload($file);
+            if (!is_uploaded_file($file['tmp_name'])) {
+                file_put_contents($logFile, "Error: Not an uploaded file.\n", FILE_APPEND);
+                throw new \Exception('Invalid upload');
+            }
+            file_put_contents($logFile, "File is a valid uploaded file.\n", FILE_APPEND);
 
-            // Guardar imagen y obtener nombre del archivo
-            $fileName = $imageHelper->saveProfileImage($file, $user['userId']);
+            // Crear directorio del usuario
+            $baseDir = dirname(dirname(__DIR__)); // Should be d:\BackUp\NEW\PHP\src -> d:\BackUp\NEW\PHP
+            file_put_contents($logFile, "Base directory: $baseDir\n", FILE_APPEND);
+            
+            $uploadDir = $baseDir . DIRECTORY_SEPARATOR . 'uploads';
+            file_put_contents($logFile, "Uploads directory path: $uploadDir\n", FILE_APPEND);
 
-            // Actualizar base de datos con referencia al archivo
+            if (!is_dir($uploadDir)) {
+                 file_put_contents($logFile, "Warning: Main uploads directory does not exist.\n", FILE_APPEND);
+            } elseif (!is_writable($uploadDir)) {
+                file_put_contents($logFile, "Error: Main uploads directory is not writable.\n", FILE_APPEND);
+                throw new \Exception('Uploads directory is not writable.');
+            }
+
+            $userDir = $uploadDir . DIRECTORY_SEPARATOR . $user['userId'];
+            file_put_contents($logFile, "User directory path: $userDir\n", FILE_APPEND);
+            
+            if (!is_dir($userDir)) {
+                file_put_contents($logFile, "User directory does not exist. Attempting to create.\n", FILE_APPEND);
+                if (!@mkdir($userDir, 0755, true)) {
+                    $error = error_get_last();
+                    file_put_contents($logFile, "Error: Failed to create directory $userDir. " . $error['message'] . "\n", FILE_APPEND);
+                    throw new \Exception('Failed to create user directory.');
+                }
+                file_put_contents($logFile, "User directory created successfully.\n", FILE_APPEND);
+            }
+
+            // Detectar tipo MIME
+            $mimeType = mime_content_type($file['tmp_name']);
+            file_put_contents($logFile, "MIME type detected: $mimeType\n", FILE_APPEND);
+            $ext = 'jpg';
+            
+            if ($mimeType === 'image/png') {
+                $ext = 'png';
+            } else if ($mimeType === 'image/gif') {
+                $ext = 'gif';
+            } else if ($mimeType === 'image/webp') {
+                $ext = 'webp';
+            } else if ($mimeType !== 'image/jpeg') {
+                file_put_contents($logFile, "Error: Invalid image type '$mimeType'.\n", FILE_APPEND);
+                throw new \Exception('Invalid image type');
+            }
+            file_put_contents($logFile, "File extension set to: $ext\n", FILE_APPEND);
+
+            // Ruta final
+            $fileName = 'profile.' . $ext;
+            $targetPath = $userDir . DIRECTORY_SEPARATOR . $fileName;
+            file_put_contents($logFile, "Target path: $targetPath\n", FILE_APPEND);
+
+            // Eliminar anterior
+            if (file_exists($targetPath)) {
+                if(!@unlink($targetPath)) {
+                     file_put_contents($logFile, "Warning: Could not delete old file $targetPath.\n", FILE_APPEND);
+                } else {
+                     file_put_contents($logFile, "Old file $targetPath deleted.\n", FILE_APPEND);
+                }
+            }
+
+            // Mover archivo
+            if (!move_uploaded_file($file['tmp_name'], $targetPath)) {
+                $error = error_get_last();
+                file_put_contents($logFile, "Error: Failed to move uploaded file to $targetPath. " . $error['message'] . "\n", FILE_APPEND);
+                throw new \Exception('Failed to save file');
+            }
+            file_put_contents($logFile, "File moved to $targetPath.\n", FILE_APPEND);
+
+
+            @chmod($targetPath, 0644);
+
+            // Actualizar DB
+            file_put_contents($logFile, "Updating database with new profile image: $fileName\n", FILE_APPEND);
             $userModel = new User();
             $updated = $userModel->updateProfileImage($user['userId'], $fileName);
+            file_put_contents($logFile, "Database updated successfully.\n", FILE_APPEND);
+
 
             $result = ResponseFormatter::success(
                 User::toDto($updated),
@@ -131,14 +209,9 @@ class ProfileController
 
             return $this->jsonResponse($response, $result['body'], $result['status']);
 
-        } catch (\InvalidArgumentException $e) {
-            $result = ResponseFormatter::error($e->getMessage(), 400);
-            return $this->jsonResponse($response, $result['body'], $result['status']);
-        } catch (\RuntimeException $e) {
-            $result = ResponseFormatter::error($e->getMessage(), 500);
-            return $this->jsonResponse($response, $result['body'], $result['status']);
         } catch (\Exception $e) {
-            $result = ResponseFormatter::error($e->getMessage(), 400);
+            file_put_contents($logFile, "FATAL ERROR: " . $e->getMessage() . "\n" . $e->getTraceAsString() . "\n", FILE_APPEND);
+            $result = ResponseFormatter::error($e->getMessage(), 500);
             return $this->jsonResponse($response, $result['body'], $result['status']);
         }
     }

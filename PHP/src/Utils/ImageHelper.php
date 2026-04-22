@@ -73,6 +73,134 @@ final class ImageHelper
     }
 
     /**
+     * Guarda una imagen de perfil desde PSR-7 UploadedFileInterface. Retorna el nombre del archivo guardado.
+     */
+    public function saveProfileImageFromStream($uploadedFile, string $userId): string
+    {
+        // Validación básica
+        if (!$uploadedFile) {
+            throw new InvalidArgumentException('No file provided');
+        }
+
+        $error = $uploadedFile->getError();
+        if ($error !== UPLOAD_ERR_OK) {
+            $errorMessages = [
+                UPLOAD_ERR_INI_SIZE => 'File exceeds upload_max_filesize',
+                UPLOAD_ERR_FORM_SIZE => 'File exceeds form MAX_FILE_SIZE',
+                UPLOAD_ERR_PARTIAL => 'File upload was incomplete',
+                UPLOAD_ERR_NO_FILE => 'No file was uploaded',
+                UPLOAD_ERR_NO_TMP_DIR => 'Temporary folder missing',
+                UPLOAD_ERR_CANT_WRITE => 'Failed to write file to disk',
+                UPLOAD_ERR_EXTENSION => 'File upload stopped by extension',
+            ];
+            throw new InvalidArgumentException($errorMessages[$error] ?? 'Unknown upload error');
+        }
+
+        $size = $uploadedFile->getSize();
+        if ($size === null || $size === 0) {
+            throw new InvalidArgumentException('File is empty');
+        }
+
+        if ($size > $this->maxFileSize) {
+            throw new InvalidArgumentException('File exceeds maximum size limit of ' . ($this->maxFileSize / 1024 / 1024) . 'MB');
+        }
+
+        // Obtener MIME type
+        $mime = $uploadedFile->getClientMediaType();
+        if (!$mime) {
+            throw new InvalidArgumentException('Unable to determine file type');
+        }
+
+        if (!in_array($mime, $this->allowedMimes, true)) {
+            throw new InvalidArgumentException('Unsupported image type: ' . $mime . '. Allowed: ' . implode(', ', $this->allowedMimes));
+        }
+
+        // Crear directorio de usuario si no existe
+        $userDir = $this->baseDir . DIRECTORY_SEPARATOR . $userId;
+        if (!is_dir($userDir)) {
+            if (!mkdir($userDir, 0755, true)) {
+                throw new RuntimeException('Failed to create user directory: ' . $userDir);
+            }
+        }
+
+        // Obtener extensión del MIME type
+        $ext = $this->mimeToExt[$mime] ?? 'jpg';
+        $fileName = 'profile.' . $ext;
+        $targetPath = $userDir . DIRECTORY_SEPARATOR . $fileName;
+
+        // Eliminar archivo anterior si existe
+        if (file_exists($targetPath)) {
+            if (!@unlink($targetPath)) {
+                throw new RuntimeException('Failed to remove existing profile image');
+            }
+        }
+
+        // Obtener stream del archivo subido
+        $stream = $uploadedFile->getStream();
+        if (!$stream) {
+            throw new RuntimeException('Failed to get upload stream');
+        }
+
+        // Escribir stream al archivo de destino
+        $targetHandle = null;
+        try {
+            $targetHandle = fopen($targetPath, 'wb');
+            if (!$targetHandle) {
+                throw new RuntimeException('Failed to open target file for writing: ' . $targetPath);
+            }
+
+            // Intentar rewind stream si es seekable
+            try {
+                if (method_exists($stream, 'isSeekable') && $stream->isSeekable()) {
+                    $stream->rewind();
+                } elseif (method_exists($stream, 'seekable') && $stream->seekable()) {
+                    $stream->rewind();
+                }
+            } catch (\Exception $seekException) {
+                // Si no se puede rewind, simplemente continuamos
+            }
+
+            // Leer y escribir en chunks
+            $bytesWritten = 0;
+            while (!$stream->eof()) {
+                $chunk = $stream->read(65536); // 64KB chunks
+                if ($chunk === '') {
+                    break;
+                }
+                $written = fwrite($targetHandle, $chunk);
+                if ($written === false) {
+                    throw new RuntimeException('Error writing to target file');
+                }
+                $bytesWritten += $written;
+            }
+
+            if ($bytesWritten === 0) {
+                throw new RuntimeException('No data was written to the target file');
+            }
+
+        } catch (\Exception $e) {
+            // Limpiar si falla
+            if ($targetHandle) {
+                fclose($targetHandle);
+            }
+            if (file_exists($targetPath)) {
+                @unlink($targetPath);
+            }
+            throw $e;
+        }
+
+        // Cerrar archivo correctamente
+        if ($targetHandle) {
+            fclose($targetHandle);
+        }
+
+        // Asegurar permisos de lectura
+        @chmod($targetPath, 0644);
+
+        return $fileName;
+    }
+
+    /**
      * Guarda una imagen de perfil. Retorna el nombre del archivo guardado.
      */
     public function saveProfileImage(array $file, string $userId): string
